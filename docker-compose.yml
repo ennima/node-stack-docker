@@ -1,0 +1,32 @@
+version: "3"
+
+services:
+  app:
+    image: nodeapp
+    environment:
+      #MONGO_URL: "mongodb://db:27017/test"
+      MYSQL_URL: "db_sql"
+      MYSQL_URL_PORT: "3306"
+    depends_on:
+      #- db
+      - db_sql
+    ports:
+      - "3000:3000"
+
+  #db:
+  #  image: mongo
+
+  db_sql:
+    container_name: node_mysql
+    image: mysql
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: "pass"
+    ports:
+      - "3306:3306"
+    volumes:
+      - my-datavolume:/var/lib/mysql
+      - ./:/home
+
+volumes:
+  my-datavolume:
